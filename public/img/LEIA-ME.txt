@@ -1,0 +1,8 @@
+Imagens do site (troque pelos arquivos reais da Simone):
+
+  hero.jpg              -> foto de fundo do topo (retrato, luz natural). ~1920x1280
+  og.jpg               -> imagem de compartilhamento (redes). 1200x630
+  portfolio/01.jpg ...  -> galeria (proporcao 4:5). Ver lista em config/institucional.php
+
+Enquanto os arquivos nao existirem, o site mostra placeholders sobrios
+automaticamente (sem quebrar o layout).

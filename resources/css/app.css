@@ -1,0 +1,132 @@
+/* Imports de bibliotecas — precisam vir ANTES de tudo (regra do PostCSS).
+   AOS = reveals simples ao rolar · Swiper = carrossel do portfólio/depoimentos.
+   As fontes da marca (Cormorant Garamond + Inter) são carregadas via <link>
+   no layout Blade (resources/views/layouts/app.blade.php). */
+@import 'aos/dist/aos.css';
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --dourado: #c7a977;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    html {
+        -webkit-font-smoothing: antialiased;
+        scroll-behavior: smooth;
+    }
+
+    /* Lenis controla o scroll suave; desliga o do browser quando ativo */
+    html.lenis,
+    html.lenis body {
+        height: auto;
+    }
+    .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+    }
+    .lenis.lenis-stopped {
+        overflow: hidden;
+    }
+
+    body {
+        @apply bg-branco text-grafite font-sans antialiased;
+        overflow-x: clip; /* trava rolagem horizontal acidental */
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-serif font-medium text-grafite;
+        text-wrap: balance;
+    }
+
+    ::selection {
+        background: var(--dourado);
+        color: #fff;
+    }
+
+    /* Acessibilidade: respeita quem pediu menos movimento */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+        [data-aos] {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+}
+
+@layer components {
+    .container-site {
+        @apply mx-auto w-full max-w-6xl px-6 sm:px-8;
+    }
+
+    .kicker {
+        @apply text-xs font-sans font-medium uppercase tracking-kicker text-dourado-700;
+    }
+
+    /* Fio dourado — o acento da marca */
+    .fio-dourado {
+        @apply block h-px w-full bg-dourado/60;
+    }
+
+    .btn-primario {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-grafite px-7 py-3.5
+               text-sm font-medium tracking-wide text-branco transition
+               duration-300 ease-suave hover:bg-grafite-700
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-dourado focus-visible:ring-offset-2
+               focus-visible:ring-offset-bege disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .btn-secundario {
+        @apply inline-flex items-center justify-center gap-2 rounded-full border border-grafite/25
+               px-7 py-3.5 text-sm font-medium tracking-wide text-grafite transition
+               duration-300 ease-suave hover:border-dourado hover:text-dourado-700
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-dourado focus-visible:ring-offset-2;
+    }
+
+    .campo-label {
+        @apply mb-1.5 block text-sm font-medium text-grafite-700;
+    }
+
+    .campo-input {
+        @apply w-full rounded-lg border border-grafite/15 bg-branco px-4 py-3 text-grafite
+               placeholder:text-grafite-500/60 transition
+               focus:border-dourado focus:outline-none focus:ring-1 focus:ring-dourado;
+    }
+
+    .campo-erro {
+        @apply mt-1 text-sm text-red-700;
+    }
+
+    .titulo-secao {
+        @apply font-serif text-3xl leading-tight sm:text-4xl md:text-[2.75rem];
+    }
+}
+
+/* Estado inicial da linha dourada animada pelo GSAP — evita "flash" antes do
+   JS assumir. Só aplica com <html class="js"> e sem prefers-reduced-motion.
+   (Os reveals simples ficam por conta do AOS, que traz o próprio CSS.) */
+@media (prefers-reduced-motion: no-preference) {
+    html.js [data-anim='linha'] {
+        transform: scaleX(0);
+        transform-origin: left center;
+    }
+}
