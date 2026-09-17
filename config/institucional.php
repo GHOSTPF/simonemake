@@ -254,12 +254,12 @@ return [
         'titulo'    => 'Trabalhos',
         'subtitulo' => 'Resultado sob luz de festa, bastidores e antes/depois.',
         'imagens' => [
-            ['src' => 'img/portfolio/01.jpg', 'alt' => 'Noiva — maquiagem natural em luz de fim de tarde', 'tipo' => 'Noiva'],
-            ['src' => 'img/portfolio/02.jpg', 'alt' => 'Antes e depois — madrinha', 'tipo' => 'Antes e depois'],
-            ['src' => 'img/portfolio/03.jpg', 'alt' => 'Bastidor do dia da noiva', 'tipo' => 'Bastidor'],
-            ['src' => 'img/portfolio/04.jpg', 'alt' => 'Penteado preso com acabamento de festa', 'tipo' => 'Penteado'],
-            ['src' => 'img/portfolio/05.jpg', 'alt' => 'Grupo de madrinhas pronto', 'tipo' => 'Madrinhas'],
-            ['src' => 'img/portfolio/06.jpg', 'alt' => 'Resultado sob flash — teste de foto', 'tipo' => 'Sob luz de festa'],
+            ['src' => 'img/portfolio/01.jpg', 'alt' => 'Penteado solto com acabamento de festa', 'tipo' => 'Penteado'],
+            ['src' => 'img/portfolio/02.jpg', 'alt' => 'Produção completa para ensaio glamouroso', 'tipo' => 'Editorial'],
+            ['src' => 'img/portfolio/03.jpg', 'alt' => 'Coque baixo com acabamento dourado', 'tipo' => 'Penteado preso'],
+            ['src' => 'img/portfolio/04.jpg', 'alt' => 'Make esfumado com acabamento natural', 'tipo' => 'Retrato'],
+            ['src' => 'img/portfolio/05.jpg', 'alt' => 'Make de festa com glitter e olho esfumado', 'tipo' => 'Sob luz de festa'],
+            ['src' => 'img/portfolio/06.jpg', 'alt' => 'Sorriso natural em luz de fim de tarde', 'tipo' => 'Luz natural'],
         ],
     ],
 
@@ -271,9 +271,14 @@ return [
     'depoimentos' => [
         'titulo' => 'O que as clientes contam',
         'itens' => [
-            ['texto' => 'Fiquei pronta com folga, e a maquiagem estava igualzinha nas fotos da festa, já de madrugada.', 'autora' => 'Noiva — Cabedelo'],
-            ['texto' => 'Éramos seis madrinhas e a mãe da noiva. Todo mundo saiu no horário, sem estresse.', 'autora' => 'Madrinha — João Pessoa'],
-            ['texto' => 'Ela testou tudo antes. No dia não teve susto nenhum, e o vestido ficou impecável.', 'autora' => 'Noiva — Bayeux'],
+            ['texto' => 'Simone tem um excelente atendimento, é uma profissional muito competente, simpática e paciente. Trabalho maravilhoso! Recomendo demais!', 'nome' => 'Amanda Medeiros'],
+            ['texto' => 'Um espaço aconchegante ,se você entrar triste, sai super feliz, porque a entrega do serviço vai muito além do esperado: produtos de qualidade, atendimento humanizado e uma profissional que entrega a beleza em dobro às suas clientes. Super confio e indico!', 'nome' => 'Anne Caroline Araújo'],
+            ['texto' => 'Uma receptividade nota mil. Profissional muito competente, receptiva, tem segurança no que faz e, acima de tudo, eleva bastante nossa autoestima. Tem muita habilidade em tudo que faz!', 'nome' => 'Aparecida Isidro'],
+            ['texto' => 'Já cuida do meu cabelo há anos, profissional impecável e completa!', 'nome' => 'Niomara Andrade'],
+            ['texto' => 'Amo o atendimento e o serviço. Muito bem atendida. Super satisfeita.', 'nome' => 'Janine Morais'],
+            ['texto' => 'Atendimento excelente, ótima profissional, recomendo.', 'nome' => 'Joice Kamaique Almeida Dodo'],
+            ['texto' => 'Tudo fica perfeito por ela!', 'nome' => 'Ivana Geane'],
+            ['texto' => 'Top demais, super indico!', 'nome' => 'Marília Oliveira'],
         ],
     ],
 

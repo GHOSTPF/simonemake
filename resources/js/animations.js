@@ -99,6 +99,7 @@ function initLinhaDourada() {
 function initCarrosseis(reducedMotion) {
     const portfolio = document.querySelector('[data-swiper="portfolio"]');
     if (portfolio) {
+        const secaoPortfolio = portfolio.closest('section') ?? portfolio;
         new Swiper(portfolio, {
             modules: [Navigation, Pagination, A11y],
             slidesPerView: 1.15,
@@ -107,8 +108,8 @@ function initCarrosseis(reducedMotion) {
             a11y: { enabled: true },
             pagination: { el: portfolio.querySelector('[data-swiper-pagination]'), clickable: true },
             navigation: {
-                nextEl: portfolio.querySelector('[data-swiper-next]'),
-                prevEl: portfolio.querySelector('[data-swiper-prev]'),
+                nextEl: secaoPortfolio.querySelector('[data-swiper-next]'),
+                prevEl: secaoPortfolio.querySelector('[data-swiper-prev]'),
             },
             breakpoints: {
                 640: { slidesPerView: 2.2, spaceBetween: 20 },
@@ -127,7 +128,8 @@ function initCarrosseis(reducedMotion) {
             autoplay: reducedMotion ? false : { delay: 6000, disableOnInteraction: true },
             pagination: { el: depo.querySelector('[data-swiper-pagination]'), clickable: true },
             breakpoints: {
-                768: { slidesPerView: 2, spaceBetween: 28 },
+                640: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 24 },
             },
         });
     }

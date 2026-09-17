@@ -7,18 +7,22 @@
             <h2 class="titulo-secao mt-4">{{ $d['titulo'] }}</h2>
         </div>
 
+        @php($coresAvatar = ['bg-dourado text-branco', 'bg-grafite text-branco', 'bg-dourado-700 text-branco'])
+
         <div class="swiper mt-12" data-swiper="depoimentos">
             <div class="swiper-wrapper">
-                @foreach ($d['itens'] as $item)
+                @foreach ($d['itens'] as $i => $item)
                     <div class="swiper-slide h-auto">
-                        <figure class="flex h-full flex-col rounded-2xl border border-grafite/10 bg-bege p-8">
-                            <span class="font-serif text-4xl leading-none text-dourado">&ldquo;</span>
-                            <blockquote class="mt-2 flex-1 text-lg leading-relaxed text-grafite-700">
+                        <figure class="flex h-full flex-col rounded-2xl border border-grafite/10 bg-bege p-5">
+                            <figcaption class="flex items-center gap-3">
+                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold {{ $coresAvatar[$i % count($coresAvatar)] }}">
+                                    {{ mb_substr($item['nome'], 0, 1) }}
+                                </span>
+                                <span class="min-w-0 truncate text-sm font-medium text-grafite">{{ $item['nome'] }}</span>
+                            </figcaption>
+                            <blockquote class="mt-3 flex-1 text-sm leading-relaxed text-grafite-700">
                                 {{ $item['texto'] }}
                             </blockquote>
-                            <figcaption class="mt-6 text-sm font-medium uppercase tracking-wider text-dourado-700">
-                                {{ $item['autora'] }}
-                            </figcaption>
                         </figure>
                     </div>
                 @endforeach
