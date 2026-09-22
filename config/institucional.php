@@ -81,27 +81,35 @@ return [
     */
     'sobre' => [
         'titulo'  => 'Quem vai cuidar da sua beleza',
-        'resumo'  => 'Simone Gomes começou a trabalhar cedo e passou anos como promotora de vendas. '
-                   . 'Depois de um acidente de moto e de uma demissão, transformou o ponto de virada em '
-                   . 'profissão: formou-se Cabeleireira Profissional pelo SENAC, especializou-se em mechas '
-                   . 'e coloração e passou a dar aula. Hoje é instrutora do SENAC e concentra a agenda em '
-                   . 'noivas, madrinhas e formandas de João Pessoa.',
+        'resumo'  => 'Prazer, eu sou a Simone. Sou maquiadora e penteadista em João Pessoa, mãe, cristã e '
+                   . 'acredito que a beleza de verdade começa no cuidado. Cada mulher que senta na minha '
+                   . 'cadeira traz uma expectativa, uma história e, muitas vezes, um dos dias mais '
+                   . 'importantes da vida dela — tratar isso com responsabilidade é o que guia o meu trabalho.',
         'completo' => [
-            'A rotina de promotora de vendas ensinou o básico que sustenta o trabalho até hoje: '
-            . 'chegar antes da hora, entender o que o cliente realmente precisa e não prometer o que '
-            . 'não dá para entregar.',
+            'Minha trajetória começou do zero. Fiz o curso de Cabeleireiro Profissional no SENAC e, com '
+            . 'muita dedicação, me especializei em mechas e coloração. Com o tempo, fui ampliando meu '
+            . 'olhar para a maquiagem e os penteados de festa, até encontrar o que hoje mais me realiza: '
+            . 'preparar mulheres para momentos que elas vão guardar para sempre.',
 
-            'O acidente de moto e a demissão que veio depois foram o empurrão para arriscar o que '
-            . 'sempre gostou de fazer. O curso no SENAC foi feito sem sobra de recursos, dividindo '
-            . 'material e aproveitando cada aula.',
+            'Hoje sou instrutora do mesmo SENAC onde tudo começou, já passei pelo Instituto Embelleze e '
+            . 'ministro meus próprios cursos. Formar outras profissionais me ensinou algo que levo para '
+            . 'cada atendimento: técnica se aprende, mas o que faz a diferença é o cuidado com cada detalhe.',
 
-            'A especialização em mechas e coloração abriu a agenda de salão — a base recorrente que '
-            . 'paga as contas todo mês. A docência veio em seguida: primeiro uma passagem pelo '
-            . 'Instituto Embelleze, depois a vaga de instrutora no SENAC, onde ensina quem está '
-            . 'começando agora.',
+            'Foi esse cuidado que me levou a trabalhos de grande responsabilidade, como a campanha '
+            . 'audiovisual de Lucas Ribeiro ao Governo da Paraíba, onde assinei a beleza do próprio '
+            . 'Lucas, da primeira-dama e de todo o elenco. Em gravações assim, a câmera mostra tudo e '
+            . 'não existe espaço para erro.',
 
-            'Hoje o foco é evento: noiva, madrinha, mãe de noiva, formanda. O tipo de trabalho em '
-            . 'que não há ensaio — e é exatamente por isso que ele exige método.',
+            'É com esse mesmo padrão que eu atendo noivas, madrinhas e mulheres que vão viver um dia '
+            . 'especial. Meu objetivo é que você se reconheça no espelho, se sinta segura do início ao '
+            . 'fim da festa e não precise se preocupar com nada além de aproveitar. Maquiagem e penteado '
+            . 'precisam combinar com você, com o seu vestido e com o seu momento, e não com uma fórmula pronta.',
+
+            'Além das produções para eventos, sigo atendendo quem busca mechas e coloração, com a '
+            . 'técnica e o acabamento de quem estudou e ensina o que faz.',
+
+            'Se você tem uma data importante chegando, vai ser uma alegria fazer parte dela. Escolha '
+            . 'seu horário e vamos conversar.',
         ],
         'ler_mais' => 'Ler a história completa',
         'ler_menos'=> 'Fechar',
@@ -138,8 +146,8 @@ return [
             [
                 'icone'     => 'camera',
                 'titulo'    => 'Campanha audiovisual — Governo Lucas Ribeiro',
-                'descricao' => 'Assinou a beleza da campanha do candidato ao governo Lucas Ribeiro, '
-                             . 'incluindo a primeira-dama e o elenco, sob a pressão de gravação.',
+                'descricao' => 'Assinou a beleza do próprio Lucas Ribeiro, da primeira-dama e de todo o '
+                             . 'elenco na campanha ao Governo da Paraíba, onde a câmera não perdoa erro.',
             ],
         ],
     ],
@@ -239,7 +247,8 @@ return [
         // não venda de curso. Deixe 'cursos' => null para ocultar.
         'cursos' => [
             'texto' => 'Você é profissional de beleza e quer aprender a técnica?',
-            'link_texto' => 'Fale sobre os cursos da Simone',
+            'link_texto' => 'Fale comigo sobre os cursos',
+            'whatsapp_texto' => 'Olá, Simone! Sou profissional de beleza e quero saber mais sobre os seus cursos.',
         ],
     ],
 

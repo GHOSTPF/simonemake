@@ -44,9 +44,10 @@
         </div>
 
         @if (!empty($s['cursos']))
+            @php($waLinkCursos = 'https://wa.me/' . preg_replace('/\D+/', '', config('institucional.marca.whatsapp_publico')) . '?text=' . rawurlencode($s['cursos']['whatsapp_texto']))
             <div data-aos="fade-up" class="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-bege px-7 py-5">
                 <p class="text-sm text-grafite-700">{{ $s['cursos']['texto'] }}</p>
-                <a href="{{ config('institucional.marca.instagram_url') }}" target="_blank" rel="noopener"
+                <a href="{{ $waLinkCursos }}" target="_blank" rel="noopener"
                    class="text-sm font-medium text-dourado-700 underline decoration-dourado/50 underline-offset-4 hover:decoration-dourado">
                     {{ $s['cursos']['link_texto'] }}
                 </a>
