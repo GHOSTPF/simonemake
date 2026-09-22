@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AgendamentoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,11 +10,3 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', fn () => view('home'))->name('home');
-
-// Horários livres do dia — consumido pelo Alpine (fetch) na seção de contato.
-Route::get('/disponibilidade', [AgendamentoController::class, 'disponibilidade'])
-    ->name('disponibilidade');
-
-// Envio do formulário "Reserve sua data".
-Route::post('/agendar', [AgendamentoController::class, 'store'])
-    ->name('agendar');

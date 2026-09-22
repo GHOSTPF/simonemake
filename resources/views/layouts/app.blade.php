@@ -26,21 +26,26 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Config lida pelo componente Alpine do formulário (resources/js/agendamento.js) --}}
+    @php($agendaCfg = config('institucional.agenda'))
+    @php($agendaAbertura = \Illuminate\Support\Carbon::createFromFormat('H:i', $agendaCfg['abertura']))
+    @php($agendaFechamento = \Illuminate\Support\Carbon::createFromFormat('H:i', $agendaCfg['fechamento']))
+    @php($horarios = collect(range(0, $agendaAbertura->diffInMinutes($agendaFechamento) - 1, (int) $agendaCfg['intervalo_slots']))->map(fn ($m) => $agendaAbertura->copy()->addMinutes($m)->format('H:i'))->values()->all())
     <script>
         window.SIMONE = {
-            csrf: @json(csrf_token()),
-            endpoints: {
-                disponibilidade: @json(route('disponibilidade')),
-                agendar: @json(route('agendar')),
-            },
-            tipos: @json(config('institucional.agenda.tipos_servico')),
-            textos: {
-                erro_conflito: @json(config('institucional.contato.erro_conflito')),
-                erro_generico: @json(config('institucional.contato.erro_generico')),
-            },
+            whatsappNumero: @json(preg_replace('/\D+/', '', config('institucional.marca.whatsapp_publico'))),
+            mensagemTemplate: @json(config('institucional.whatsapp.mensagem_agendamento')),
+            tipos: @json($agendaCfg['tipos_servico']),
             agenda: {
-                min_data: @json(now()->addHours((int) config('institucional.agenda.antecedencia_minima_horas'))->format('Y-m-d')),
-                max_data: @json(now()->addDays((int) config('institucional.agenda.janela_futura_dias'))->format('Y-m-d')),
+                min_data: @json(now()->addHours((int) $agendaCfg['antecedencia_minima_horas'])->format('Y-m-d')),
+                max_data: @json(now()->addDays((int) $agendaCfg['janela_futura_dias'])->format('Y-m-d')),
+                horarios: @json($horarios),
+            },
+            googleAgenda: {
+                marcaNome: @json(config('institucional.marca.nome')),
+                regiao: @json(config('institucional.marca.regiao')),
+                timezone: @json(config('app.timezone')),
+                duracaoPorServico: @json($agendaCfg['duracao_por_servico']),
+                duracaoPadrao: @json($agendaCfg['duracao_padrao']),
             },
         };
     </script>

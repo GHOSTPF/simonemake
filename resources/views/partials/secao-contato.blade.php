@@ -31,7 +31,7 @@
             <div
                 x-data="agendamento"
                 x-init="init()"
-                @preselecionar-servico.window="form.tipo_servico = $event.detail.slug; if (form.data) buscarSlots()"
+                @preselecionar-servico.window="form.tipo_servico = $event.detail.slug"
                 class="rounded-3xl border border-grafite/10 bg-branco p-7 sm:p-10"
                 data-aos="fade-up"
             >
@@ -50,17 +50,24 @@
                             <div class="flex justify-between gap-4"><dt class="text-grafite-500">Horário</dt><dd x-text="resumo?.hora"></dd></div>
                         </dl>
 
-                        <button type="button" @click="recomecar()" class="btn-secundario mt-8">Fazer outra reserva</button>
+                        <p class="mx-auto mt-4 max-w-sm text-xs text-grafite-500">
+                            Abrimos o WhatsApp e o Google Agenda em novas abas. Se alguma não abriu
+                            (bloqueio de pop-up), use o link abaixo.
+                        </p>
+
+                        <a :href="linkGoogleAgenda" target="_blank" rel="noopener"
+                           class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-dourado-700 underline decoration-dourado/50 underline-offset-4 hover:decoration-dourado">
+                            Adicionar ao Google Agenda
+                        </a>
+
+                        <div>
+                            <button type="button" @click="recomecar()" class="btn-secundario mt-8">Fazer outra reserva</button>
+                        </div>
                     </div>
                 </template>
 
                 {{-- FORMULÁRIO --}}
                 <form x-show="estado !== 'sucesso'" @submit.prevent="enviar()" novalidate>
-                    {{-- Erro geral (409 / genérico) --}}
-                    <div x-show="erroGeral" x-cloak x-transition
-                         class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-                         x-text="erroGeral"></div>
-
                     <div class="grid gap-5 sm:grid-cols-2">
                         {{-- Nome --}}
                         <div class="sm:col-span-2">
@@ -69,15 +76,6 @@
                                    class="campo-input" :class="erros.nome && 'border-red-400'"
                                    placeholder="Seu nome completo">
                             <p class="campo-erro" x-show="erros.nome" x-cloak x-text="erros.nome"></p>
-                        </div>
-
-                        {{-- Telefone --}}
-                        <div>
-                            <label for="ag-tel" class="campo-label">WhatsApp</label>
-                            <input id="ag-tel" type="tel" x-model="form.telefone" autocomplete="tel"
-                                   class="campo-input" :class="erros.telefone && 'border-red-400'"
-                                   placeholder="(83) 99999-9999">
-                            <p class="campo-erro" x-show="erros.telefone" x-cloak x-text="erros.telefone"></p>
                         </div>
 
                         {{-- Tipo de serviço --}}
@@ -94,7 +92,7 @@
                         </div>
 
                         {{-- Data --}}
-                        <div class="sm:col-span-2">
+                        <div>
                             <label for="ag-data" class="campo-label">Data do evento</label>
                             <input id="ag-data" type="date" x-model="form.data"
                                    :min="minData" :max="maxData"
@@ -107,22 +105,8 @@
                     <div class="mt-5">
                         <span class="campo-label">Horário</span>
 
-                        <p x-show="!form.data" class="text-sm text-grafite-500">Escolha uma data para ver os horários livres.</p>
-
-                        <p x-show="form.data && carregandoSlots" x-cloak class="flex items-center gap-2 text-sm text-grafite-500">
-                            <svg class="h-4 w-4 animate-spin text-dourado" viewBox="0 0 24 24" fill="none">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z"/>
-                            </svg>
-                            Buscando horários…
-                        </p>
-
-                        <p x-show="form.data && !carregandoSlots && slotsErro" x-cloak
-                           class="text-sm text-grafite-500" x-text="slotsErro"></p>
-
-                        <div x-show="form.data && !carregandoSlots && slots.length" x-cloak
-                             class="mt-2 flex flex-wrap gap-2" role="group" aria-label="Horários disponíveis">
-                            <template x-for="h in slots" :key="h">
+                        <div class="mt-2 flex flex-wrap gap-2" role="group" aria-label="Horários disponíveis">
+                            <template x-for="h in horarios" :key="h">
                                 <button type="button" @click="selecionarHora(h)"
                                         class="rounded-full border px-4 py-2 text-sm transition"
                                         :class="form.hora === h
@@ -134,23 +118,8 @@
                         <p class="campo-erro" x-show="erros.hora" x-cloak x-text="erros.hora"></p>
                     </div>
 
-                    {{-- Observação --}}
-                    <div class="mt-5">
-                        <label for="ag-obs" class="campo-label">Observação <span class="font-normal text-grafite-500">(opcional)</span></label>
-                        <textarea id="ag-obs" x-model="form.observacao" rows="3" class="campo-input"
-                                  placeholder="Local do evento, nº de pessoas, horário da cerimônia…"></textarea>
-                        <p class="campo-erro" x-show="erros.observacao" x-cloak x-text="erros.observacao"></p>
-                    </div>
-
-                    <button type="submit" class="btn-primario mt-8 w-full" :disabled="estado === 'enviando'">
-                        <span x-show="estado !== 'enviando'">{{ $c['titulo'] }}</span>
-                        <span x-show="estado === 'enviando'" x-cloak class="flex items-center gap-2">
-                            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z"/>
-                            </svg>
-                            Enviando…
-                        </span>
+                    <button type="submit" class="btn-primario mt-8 w-full">
+                        {{ $c['titulo'] }}
                     </button>
                 </form>
             </div>

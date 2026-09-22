@@ -5,94 +5,50 @@
 | Registrado em app.js como Alpine.data('agendamento', ...).
 | Uso no Blade:  <div x-data="agendamento" x-init="init()"> ... </div>
 |
+| Sem backend: ao enviar, o formulário abre duas abas, ambas via link
+| público (sem API/OAuth):
+|   1. WhatsApp da visitante com a mensagem já preenchida (wa.me);
+|   2. Tela de "novo evento" do Google Agenda já preenchida
+|      (calendar.google.com/calendar/render?action=TEMPLATE...).
+| Em ambos os casos quem confirma o envio/salvamento é a própria visitante.
+|
 | Config vem de window.SIMONE (injetado no layout Blade):
-|   endpoints.disponibilidade, endpoints.agendar, csrf,
-|   tipos (mapa slug->label), textos (sucesso/erro), agenda (min/max data)
+|   whatsappNumero, mensagemTemplate, tipos (mapa slug->label),
+|   agenda (min/max data, horarios), googleAgenda (marcaNome, regiao,
+|   timezone, duracaoPorServico, duracaoPadrao)
 */
+
+function pad2(n) {
+    return String(n).padStart(2, '0');
+}
 
 export default function agendamento() {
     const cfg = window.SIMONE || {};
+    const ga = cfg.googleAgenda || {};
 
     return {
         // ---- campos do formulário ----
         form: {
             nome: '',
-            telefone: '',
+            tipo_servico: '',
             data: '',
             hora: '',
-            tipo_servico: '',
-            observacao: '',
         },
 
-        // ---- limites de data (do config PHP) ----
+        // ---- limites de data e horários (do config PHP) ----
         minData: cfg.agenda?.min_data || '',
         maxData: cfg.agenda?.max_data || '',
+        horarios: cfg.agenda?.horarios || [],
 
-        // ---- estado do seletor de horário ----
-        slots: [],
-        carregandoSlots: false,
-        slotsErro: '',
-        jaBuscou: false,
-
-        // ---- estado do envio ----
-        estado: 'idle', // idle | enviando | sucesso | erro
-        erroGeral: '',
+        // ---- estado da tela ----
+        estado: 'idle', // idle | sucesso
         erros: {}, // { campo: 'mensagem' }
         resumo: null, // dados confirmados p/ tela de sucesso
+        linkGoogleAgenda: '', // fallback caso a 2ª aba seja bloqueada pelo navegador
 
         tipos: cfg.tipos || {},
 
-        init() {
-            // Rebusca horários quando muda a data ou o tipo de serviço
-            // (a duração do serviço muda quais horários "cabem").
-            this.$watch('form.data', () => this.buscarSlots());
-            this.$watch('form.tipo_servico', () => {
-                if (this.form.data) this.buscarSlots();
-            });
-        },
-
-        // -----------------------------------------------------------------
-        // Disponibilidade
-        // -----------------------------------------------------------------
-        async buscarSlots() {
-            this.form.hora = '';
-            this.slots = [];
-            this.slotsErro = '';
-            this.erros.hora = '';
-
-            if (!this.form.data) {
-                this.jaBuscou = false;
-                return;
-            }
-
-            this.carregandoSlots = true;
-            this.jaBuscou = true;
-
-            try {
-                const url = new URL(cfg.endpoints.disponibilidade, window.location.origin);
-                url.searchParams.set('data', this.form.data);
-                if (this.form.tipo_servico) {
-                    url.searchParams.set('tipo_servico', this.form.tipo_servico);
-                }
-
-                const resp = await fetch(url, {
-                    headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-                });
-
-                if (!resp.ok) throw new Error('falha');
-
-                const json = await resp.json();
-                this.slots = Array.isArray(json.slots) ? json.slots : [];
-
-                if (this.slots.length === 0) {
-                    this.slotsErro = 'Não há horários livres nesse dia. Tente outra data.';
-                }
-            } catch (e) {
-                this.slotsErro = 'Não foi possível carregar os horários. Tente novamente.';
-            } finally {
-                this.carregandoSlots = false;
-            }
-        },
+        init() {},
 
         selecionarHora(h) {
             this.form.hora = h;
@@ -100,15 +56,11 @@ export default function agendamento() {
         },
 
         // -----------------------------------------------------------------
-        // Validação client-side (básica — a que conta é a do servidor)
+        // Validação
         // -----------------------------------------------------------------
         validar() {
             const e = {};
             if (this.form.nome.trim().length < 2) e.nome = 'Informe seu nome.';
-
-            const tel = this.form.telefone.replace(/\D+/g, '');
-            if (tel.length < 10 || tel.length > 13) e.telefone = 'Informe um WhatsApp válido com DDD.';
-
             if (!this.form.tipo_servico) e.tipo_servico = 'Escolha o tipo de serviço.';
             if (!this.form.data) e.data = 'Escolha uma data.';
             if (!this.form.hora) e.hora = 'Escolha um horário.';
@@ -117,70 +69,76 @@ export default function agendamento() {
             return Object.keys(e).length === 0;
         },
 
-        // -----------------------------------------------------------------
-        // Envio
-        // -----------------------------------------------------------------
-        async enviar() {
-            this.erroGeral = '';
+        formatarData(data) {
+            return data ? data.split('-').reverse().join('/') : '';
+        },
 
+        montarMensagem(dataFmt, servicoLabel) {
+            return (cfg.mensagemTemplate || '')
+                .replace(':nome', this.form.nome.trim())
+                .replace(':servico', servicoLabel)
+                .replace(':data', dataFmt)
+                .replace(':hora', this.form.hora);
+        },
+
+        // -----------------------------------------------------------------
+        // Link do Google Agenda (sem API — só a URL pública de novo evento)
+        // -----------------------------------------------------------------
+        montarLinkGoogleAgenda(servicoLabel) {
+            const [ano, mes, dia] = this.form.data.split('-').map(Number);
+            const [hora, minuto] = this.form.hora.split(':').map(Number);
+
+            const inicio = new Date(ano, mes - 1, dia, hora, minuto, 0);
+            const duracao = ga.duracaoPorServico?.[this.form.tipo_servico] ?? ga.duracaoPadrao ?? 60;
+            const fim = new Date(inicio.getTime() + duracao * 60000);
+
+            const fmt = (d) =>
+                `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}` +
+                `T${pad2(d.getHours())}${pad2(d.getMinutes())}00`;
+
+            const params = new URLSearchParams({
+                action: 'TEMPLATE',
+                text: `${ga.marcaNome || ''} — ${servicoLabel} (${this.form.nome.trim()})`,
+                dates: `${fmt(inicio)}/${fmt(fim)}`,
+                details: `Agendamento feito pelo site.\nServiço: ${servicoLabel}`,
+                ctz: ga.timezone || 'America/Sao_Paulo',
+            });
+
+            if (ga.regiao) params.set('location', ga.regiao);
+
+            return `https://calendar.google.com/calendar/render?${params.toString()}`;
+        },
+
+        // -----------------------------------------------------------------
+        // Envio — abre o WhatsApp e o Google Agenda, ambos já preenchidos
+        // -----------------------------------------------------------------
+        enviar() {
             if (!this.validar()) return;
 
-            this.estado = 'enviando';
+            const dataFmt = this.formatarData(this.form.data);
+            const servicoLabel = this.tipos[this.form.tipo_servico] || this.form.tipo_servico;
+            const texto = this.montarMensagem(dataFmt, servicoLabel);
+            const urlWhatsApp = `https://wa.me/${cfg.whatsappNumero}?text=${encodeURIComponent(texto)}`;
+            const urlGoogleAgenda = this.montarLinkGoogleAgenda(servicoLabel);
 
-            try {
-                const resp = await fetch(cfg.endpoints.agendar, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': cfg.csrf,
-                    },
-                    body: JSON.stringify({ ...this.form, telefone: this.form.telefone.replace(/\D+/g, '') }),
-                });
+            this.resumo = {
+                servico: servicoLabel,
+                data: dataFmt,
+                hora: this.form.hora,
+            };
+            this.linkGoogleAgenda = urlGoogleAgenda;
 
-                if (resp.status === 201) {
-                    const json = await resp.json();
-                    this.resumo = json.agendamento || null;
-                    this.estado = 'sucesso';
-                    return;
-                }
-
-                if (resp.status === 409) {
-                    // Horário ocupado entre a checagem e o envio.
-                    const json = await resp.json().catch(() => ({}));
-                    this.estado = 'erro';
-                    this.erroGeral = json.message || cfg.textos?.erro_conflito || 'Esse horário não está mais disponível.';
-                    // Atualiza a lista para a visitante escolher outro.
-                    await this.buscarSlots();
-                    return;
-                }
-
-                if (resp.status === 422) {
-                    const json = await resp.json();
-                    const errs = {};
-                    Object.entries(json.errors || {}).forEach(([campo, msgs]) => {
-                        errs[campo] = Array.isArray(msgs) ? msgs[0] : String(msgs);
-                    });
-                    this.erros = errs;
-                    this.estado = 'idle';
-                    this.erroGeral = 'Confira os campos destacados.';
-                    return;
-                }
-
-                throw new Error('status ' + resp.status);
-            } catch (e) {
-                this.estado = 'erro';
-                this.erroGeral = cfg.textos?.erro_generico || 'Não foi possível enviar agora. Tente novamente em instantes.';
-            }
+            window.open(urlWhatsApp, '_blank', 'noopener');
+            window.open(urlGoogleAgenda, '_blank', 'noopener');
+            this.estado = 'sucesso';
         },
 
         recomecar() {
             this.estado = 'idle';
-            this.erroGeral = '';
             this.erros = {};
-            this.form.hora = '';
-            this.buscarSlots();
+            this.resumo = null;
+            this.linkGoogleAgenda = '';
+            this.form = { nome: '', tipo_servico: '', data: '', hora: '' };
         },
     };
 }

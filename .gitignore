@@ -22,8 +22,4 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-
-# Credenciais de integração — nunca versionar
-/storage/app/google-calendar/*.json
-/storage/app/private/google-calendar/*.json
 auth.json

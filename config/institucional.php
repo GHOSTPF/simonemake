@@ -35,7 +35,7 @@ return [
         'instagram_url'   => 'https://instagram.com/sigomesmakehair',
         // Número de WhatsApp EXIBIDO ao público (link "clique e converse").
         // Formato internacional só com dígitos. Ex.: 5583999999999
-        'whatsapp_publico'      => '5583999999999',
+        'whatsapp_publico'      => '5583986669294',
         'whatsapp_texto_padrao' => 'Olá, Simone! Vim pelo site e gostaria de informações sobre agenda.',
         'cidade'          => 'João Pessoa/PB',
         'regiao'          => 'João Pessoa e região — Paraíba',
@@ -302,21 +302,36 @@ return [
     'contato' => [
         'kicker' => 'Agenda aberta',
         'titulo' => 'Reserve sua data',
-        'subtitulo' => 'Escolha o dia e o horário disponíveis. A Simone recebe o pedido na hora e '
-                     . 'confirma os detalhes com você pelo WhatsApp.',
-        'obs_form' => 'Ao enviar, você reserva provisoriamente o horário. A confirmação final e o '
-                    . 'valor são combinados no atendimento.',
-        'sucesso_titulo' => 'Pedido recebido!',
-        'sucesso_texto'  => 'A Simone já foi avisada e retorna pelo WhatsApp para confirmar. '
-                          . 'Seu horário está reservado.',
-        'erro_conflito'  => 'Esse horário acabou de ser reservado. Escolha outro, por favor.',
-        'erro_generico'  => 'Não foi possível enviar agora. Tente novamente em instantes ou chame '
-                          . 'no WhatsApp.',
+        'subtitulo' => 'Escolha o serviço, o dia e o horário. Você abre o WhatsApp com tudo '
+                     . 'preenchido e confirma os detalhes direto com a Simone.',
+        'obs_form' => 'Ao enviar, abrimos o WhatsApp com sua mensagem pronta. Basta conferir e '
+                    . 'apertar enviar — a confirmação final e o valor são combinados por lá.',
+        'sucesso_titulo' => 'Mensagem pronta!',
+        'sucesso_texto'  => 'Abrimos o WhatsApp com os dados preenchidos. É só conferir e enviar '
+                          . 'para reservar sua data.',
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | 10. FOOTER
+    | 10. AVALIAÇÕES NO GOOGLE
+    |--------------------------------------------------------------------------
+    | Deixe 'avaliacoes_google' => null para ocultar esta seção completamente.
+    | 'url' é o link do perfil da Simone no Google Maps — usado nos dois botões
+    | (ver avaliações e deixar avaliação); de lá a pessoa consegue tanto ler
+    | quanto escrever uma avaliação.
+    */
+    'avaliacoes_google' => [
+        'kicker' => 'Avaliações no Google',
+        'titulo' => 'O que dizem sobre a Simone.',
+        'texto'  => 'Veja o que as clientes dizem e deixe sua avaliação da Simone Gomes no Google.',
+        'url'    => 'https://www.google.com/maps/place/sigomes+make%26hair/@-7.2060188,-34.8351323,17z/data=!4m8!3m7!1s0x7acc1c7f831d599:0x1a85f1e22314c5da!8m2!3d-7.2060188!4d-34.8325574!9m1!1b1!16s%2Fg%2F11v0_tw9vn?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D',
+        'cta_ver'    => 'Ver avaliações',
+        'cta_deixar' => 'Deixar minha avaliação',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | 11. FOOTER
     |--------------------------------------------------------------------------
     */
     'footer' => [
@@ -326,24 +341,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | AGENDA — regras de disponibilidade  (AJUSTE AQUI)
+    | AGENDA — horários exibidos no formulário  (AJUSTE AQUI)
     |--------------------------------------------------------------------------
     |
-    | Estas configurações controlam quais horários aparecem no formulário.
+    | Não há checagem de disponibilidade real (sem backend/banco de dados):
+    | estas configurações só geram a lista de horários mostrada no formulário
+    | e os limites de data do calendário.
     |
     */
     'agenda' => [
-
-        // Dias da semana em que a Simone atende.
-        // 1 = segunda ... 7 = domingo (padrão ISO-8601 / Carbon::dayOfWeekIso).
-        'dias_atendimento' => [2, 3, 4, 5, 6], // terça a sábado
 
         // Janela de funcionamento (horário local). Formato "HH:MM".
         'abertura'    => '08:00',
         'fechamento'  => '18:00',
 
-        // De quanto em quanto tempo um novo horário pode começar (em minutos).
-        // Ex.: 60 => slots começam 08:00, 09:00, 10:00...
+        // De quanto em quanto tempo um novo horário aparece na lista (em minutos).
+        // Ex.: 60 => horários 08:00, 09:00, 10:00...
         'intervalo_slots' => 60,
 
         // Antecedência mínima para reservar (em horas). Bloqueia "hoje daqui a pouco".
@@ -352,9 +365,18 @@ return [
         // Até quantos dias no futuro a agenda fica aberta.
         'janela_futura_dias' => 120,
 
-        // Duração de cada tipo de serviço (em minutos). A 'chave' precisa ser
-        // igual ao 'slug' do pacote em 'servicos.pacotes' e ao value do <select>
-        // no formulário. Um serviço mais longo ocupa mais horários seguidos.
+        // Opções exibidas no <select> "tipo de serviço" do formulário.
+        'tipos_servico' => [
+            'noiva'            => 'Noiva',
+            'madrinha'         => 'Madrinha',
+            'festa'            => 'Festa / Formatura',
+            'mechas_coloracao' => 'Mechas e coloração',
+            'outro'            => 'Outro',
+        ],
+
+        // Duração estimada de cada serviço (em minutos). Usada só para calcular
+        // o horário de término do evento no link "Adicionar ao Google Agenda"
+        // (não há checagem de conflito real, é só o evento sugerido).
         'duracao_por_servico' => [
             'noiva'            => 180,
             'madrinha'         => 90,
@@ -365,63 +387,23 @@ return [
 
         // Duração usada quando o tipo não está no mapa acima.
         'duracao_padrao' => 60,
-
-        // Opções exibidas no <select> "tipo de serviço" do formulário.
-        // O 'value' precisa existir em 'duracao_por_servico'.
-        'tipos_servico' => [
-            'noiva'            => 'Noiva',
-            'madrinha'         => 'Madrinha',
-            'festa'            => 'Festa / Formatura',
-            'mechas_coloracao' => 'Mechas e coloração',
-            'outro'            => 'Outro',
-        ],
-
-        // Datas bloqueadas manualmente (férias, feriados, compromissos).
-        // Formato "YYYY-MM-DD".
-        'bloqueios' => [
-            // '2026-12-25',
-        ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | GOOGLE AGENDA — como o evento é montado
-    |--------------------------------------------------------------------------
-    */
-    'google_agenda' => [
-        // Prefixo do título do evento criado na agenda da Simone.
-        'prefixo_titulo' => '[Site] ',
-        // Fuso usado para montar início/fim do evento.
-        'timezone' => 'America/Recife',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | WHATSAPP — mensagem enviada para a Simone
+    | WHATSAPP — mensagem pré-preenchida do formulário "Reserve sua data"
     |--------------------------------------------------------------------------
     |
-    | Placeholders disponíveis: :nome :telefone :servico :data :hora :observacao
+    | Ao enviar o formulário, o site abre o WhatsApp da cliente com esta
+    | mensagem já preenchida, pronta para enviar para a Simone.
+    | Placeholders disponíveis: :nome :servico :data :hora
     |
     */
     'whatsapp' => [
-        'mensagem_simone' => "*Novo agendamento pelo site*\n\n"
-            . "Cliente: :nome\n"
-            . "WhatsApp: :telefone\n"
-            . "Serviço: :servico\n"
-            . "Data: :data\n"
-            . "Horário: :hora\n"
-            . "Obs.: :observacao",
-
-        // Confirmação automática para a CLIENTE.
-        // A Meta só permite iniciar conversa fora da janela de 24h via TEMPLATE
-        // pré-aprovado. Deixe 'template_cliente' => null enquanto não houver um
-        // template aprovado — nesse caso a cliente não recebe mensagem automática.
-        // Quando tiver o template aprovado, preencha o nome e o idioma abaixo.
-        'template_cliente' => [
-            'nome'   => null,          // ex.: 'confirmacao_agendamento'
-            'idioma' => 'pt_BR',
-            // Ordem dos parâmetros do corpo do template ({{1}}, {{2}}, ...).
-            'parametros' => ['nome', 'data', 'hora'],
-        ],
+        'mensagem_agendamento' => "Olá, Simone! Gostaria de agendar um horário pelo site.\n\n"
+            . "*Nome:* :nome\n"
+            . "*Serviço:* :servico\n"
+            . "*Data:* :data\n"
+            . "*Horário:* :hora",
     ],
 ];
