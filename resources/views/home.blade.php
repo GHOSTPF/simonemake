@@ -10,5 +10,4 @@
     @include('partials.depoimentos')
     @include('partials.secao-contato')
     @include('partials.avaliacoes-google')
-    @include('partials.pessoal')
 @endsection

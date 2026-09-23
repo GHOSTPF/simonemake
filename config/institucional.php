@@ -62,7 +62,7 @@ return [
     */
     'hero' => [
         'kicker'    => 'João Pessoa/PB · Noivas · Madrinhas · Festas',
-        'titulo'    => 'Na festa de outra pessoa, não existe segunda tentativa.',
+        'titulo'    => 'Segurança e confiança para o seu dia mais importante.',
         'subtitulo' => 'Maquiagem e penteados que atravessam a cerimônia, a foto, o calor e o abraço '
                      . 'apertado — e continuam intactos na hora de jogar o buquê.',
         'cta_texto'      => 'Reserve sua data',
@@ -81,35 +81,37 @@ return [
     */
     'sobre' => [
         'titulo'  => 'Quem vai cuidar da sua beleza',
-        'resumo'  => 'Prazer, eu sou a Simone. Sou maquiadora e penteadista em João Pessoa, mãe, cristã e '
-                   . 'acredito que a beleza de verdade começa no cuidado. Cada mulher que senta na minha '
-                   . 'cadeira traz uma expectativa, uma história e, muitas vezes, um dos dias mais '
-                   . 'importantes da vida dela — tratar isso com responsabilidade é o que guia o meu trabalho.',
+        'resumo'  => 'Simone Gomes é maquiadora e penteadista em João Pessoa. Sua atuação é guiada pela '
+                   . 'crença de que a beleza de verdade começa no cuidado — cada cliente que senta em '
+                   . 'sua cadeira traz uma expectativa, uma história e, muitas vezes, um dos dias mais '
+                   . 'importantes da vida. Tratar isso com responsabilidade é o que orienta o trabalho.',
         'completo' => [
-            'Minha trajetória começou do zero. Fiz o curso de Cabeleireiro Profissional no SENAC e, com '
-            . 'muita dedicação, me especializei em mechas e coloração. Com o tempo, fui ampliando meu '
-            . 'olhar para a maquiagem e os penteados de festa, até encontrar o que hoje mais me realiza: '
-            . 'preparar mulheres para momentos que elas vão guardar para sempre.',
+            'A trajetória começou do zero, com o curso de Cabeleireiro Profissional no SENAC, seguido '
+            . 'de especialização em mechas e coloração. Com o tempo, o olhar se ampliou para a '
+            . 'maquiagem e os penteados de festa, até chegar ao que hoje mais realiza: preparar '
+            . 'mulheres para momentos que vão guardar para sempre.',
 
-            'Hoje sou instrutora do mesmo SENAC onde tudo começou, já passei pelo Instituto Embelleze e '
-            . 'ministro meus próprios cursos. Formar outras profissionais me ensinou algo que levo para '
-            . 'cada atendimento: técnica se aprende, mas o que faz a diferença é o cuidado com cada detalhe.',
+            'Hoje Simone é instrutora do mesmo SENAC onde tudo começou, já passou pelo Instituto '
+            . 'Embelleze e ministra cursos próprios. Formar outras profissionais reforça um princípio '
+            . 'levado para cada atendimento: técnica se aprende, mas o que faz a diferença é o cuidado '
+            . 'com cada detalhe.',
 
-            'Foi esse cuidado que me levou a trabalhos de grande responsabilidade, como a campanha '
-            . 'audiovisual de Lucas Ribeiro ao Governo da Paraíba, onde assinei a beleza do próprio '
-            . 'Lucas, da primeira-dama e de todo o elenco. Em gravações assim, a câmera mostra tudo e '
-            . 'não existe espaço para erro.',
+            'Foi esse cuidado que resultou em trabalhos de grande responsabilidade, como a campanha '
+            . 'audiovisual de Lucas Ribeiro ao Governo da Paraíba, com a assinatura da beleza do '
+            . 'próprio Lucas, da primeira-dama e de todo o elenco. Em gravações assim, a câmera mostra '
+            . 'tudo e não existe espaço para erro.',
 
-            'É com esse mesmo padrão que eu atendo noivas, madrinhas e mulheres que vão viver um dia '
-            . 'especial. Meu objetivo é que você se reconheça no espelho, se sinta segura do início ao '
-            . 'fim da festa e não precise se preocupar com nada além de aproveitar. Maquiagem e penteado '
-            . 'precisam combinar com você, com o seu vestido e com o seu momento, e não com uma fórmula pronta.',
+            'É com esse mesmo padrão que o atendimento é conduzido para noivas, madrinhas e mulheres '
+            . 'que vão viver um dia especial. O objetivo é que a cliente se reconheça no espelho, se '
+            . 'sinta segura do início ao fim da festa e não precise se preocupar com nada além de '
+            . 'aproveitar. Maquiagem e penteado precisam combinar com a pessoa, com o vestido e com o '
+            . 'momento, e não com uma fórmula pronta.',
 
-            'Além das produções para eventos, sigo atendendo quem busca mechas e coloração, com a '
+            'Além das produções para eventos, o atendimento também contempla mechas e coloração, com a '
             . 'técnica e o acabamento de quem estudou e ensina o que faz.',
 
-            'Se você tem uma data importante chegando, vai ser uma alegria fazer parte dela. Escolha '
-            . 'seu horário e vamos conversar.',
+            'Para datas importantes, a agenda está aberta. Basta escolher o horário e dar início à '
+            . 'conversa.',
         ],
         'ler_mais' => 'Ler a história completa',
         'ler_menos'=> 'Fechar',
@@ -289,18 +291,6 @@ return [
             ['texto' => 'Tudo fica perfeito por ela!', 'nome' => 'Ivana Geane'],
             ['texto' => 'Top demais, super indico!', 'nome' => 'Marília Oliveira'],
         ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | 8. PESSOAL (nota humana — tratar com discrição)
-    |--------------------------------------------------------------------------
-    | Sem nomes/idades das filhas em destaque. Deixe 'pessoal' => null p/ ocultar.
-    */
-    'pessoal' => [
-        'texto' => 'Fora do trabalho, Simone é casada há 18 anos e mãe de três filhas. Divide, como '
-                 . 'a maioria das clientes, a rotina entre casa, profissão e o cuidado com a própria '
-                 . 'autoestima — e é desse lugar que ela entende o que um dia de festa representa.',
     ],
 
     /*
