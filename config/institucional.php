@@ -124,7 +124,7 @@ return [
     | 'icone' = nome de um ícone Heroicons outline (ver partials/_icon.blade.php).
     */
     'autoridade' => [
-        'titulo'   => 'Por que confiar o dia na Simone',
+        'titulo'   => 'Por que confiar',
         'subtitulo'=> 'Formação reconhecida, sala de aula e trabalho entregue sob pressão real.',
         'cards' => [
             [
@@ -321,8 +321,8 @@ return [
     */
     'avaliacoes_google' => [
         'kicker' => 'Avaliações no Google',
-        'titulo' => 'O que dizem sobre a Simone.',
-        'texto'  => 'Veja o que as clientes dizem e deixe sua avaliação da Simone Gomes no Google.',
+        'titulo' => 'O que dizem sobre.',
+        'texto'  => 'Veja o que as clientes dizem e deixe sua avaliação no Google.',
         'url'    => 'https://www.google.com/maps/place/sigomes+make%26hair/@-7.2060188,-34.8351323,17z/data=!4m8!3m7!1s0x7acc1c7f831d599:0x1a85f1e22314c5da!8m2!3d-7.2060188!4d-34.8325574!9m1!1b1!16s%2Fg%2F11v0_tw9vn?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D',
         'cta_ver'    => 'Ver avaliações',
         'cta_deixar' => 'Deixar minha avaliação',
